@@ -234,6 +234,7 @@ extern const u8 gMenuText_SortAmount[];
 extern const u8 gMenuText_Confirm[];
 extern const u8 gMenuText_Show[];
 extern const u8 gMenuText_Give2[];
+extern const u8 gMenuText_ToggleUniqueMega[];
 
 extern const u8 gText_WithdrawPokemon[];
 extern const u8 gText_WithdrawMonDescription[];
@@ -529,6 +530,9 @@ extern const u8 gText_DepositedVar2Var1s[];
 extern const u8 gText_NoRoomForItems[];
 extern const u8 gText_ThreeDashes[];
 extern const u8 *const gPocketNamesStringsTable[];
+extern const u8 gText_ToggleUniqueMega[];
+extern const u8 gText_ToggleUniqueMega_Yes[];
+extern const u8 gText_ToggleUniqueMega_No[];
 
 // party menu text
 extern const u8 gText_PkmnHPRestoredByVar2[];

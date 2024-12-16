@@ -389,6 +389,57 @@ static u16 TransformCheckSpecies(u16 species)
     return species;
 }
 
+// There is probably a better way to check for this but idk lmao
+static const u16 speciesMegaList[] = {
+    SPECIES_VENUSAUR_MEGA,
+    SPECIES_CHARIZARD_MEGA_X,
+    SPECIES_CHARIZARD_MEGA_Y,
+    SPECIES_BLASTOISE_MEGA,
+    SPECIES_BEEDRILL_MEGA,
+    SPECIES_PIDGEOT_MEGA,
+    SPECIES_ALAKAZAM_MEGA,
+    SPECIES_SLOWBRO_MEGA,
+    SPECIES_GENGAR_MEGA,
+    SPECIES_KANGASKHAN_MEGA,
+    SPECIES_PINSIR_MEGA,
+    SPECIES_GYARADOS_MEGA,
+    SPECIES_AERODACTYL_MEGA,
+    SPECIES_MEWTWO_MEGA_X,
+    SPECIES_MEWTWO_MEGA_Y,
+    SPECIES_AMPHAROS_MEGA,
+    SPECIES_STEELIX_MEGA,
+    SPECIES_SCIZOR_MEGA,
+    SPECIES_HERACROSS_MEGA,
+    SPECIES_HOUNDOOM_MEGA,
+    SPECIES_TYRANITAR_MEGA,
+    SPECIES_SCEPTILE_MEGA,
+    SPECIES_BLAZIKEN_MEGA,
+    SPECIES_SWAMPERT_MEGA,
+    SPECIES_GARDEVOIR_MEGA,
+    SPECIES_SABLEYE_MEGA,
+    SPECIES_MAWILE_MEGA,
+    SPECIES_AGGRON_MEGA,
+    SPECIES_MEDICHAM_MEGA,
+    SPECIES_MANECTRIC_MEGA,
+    SPECIES_SHARPEDO_MEGA,
+    SPECIES_CAMERUPT_MEGA,
+    SPECIES_ALTARIA_MEGA,
+    SPECIES_BANETTE_MEGA,
+    SPECIES_ABSOL_MEGA,
+    SPECIES_GLALIE_MEGA,
+    SPECIES_SALAMENCE_MEGA,
+    SPECIES_METAGROSS_MEGA,
+    SPECIES_LATIAS_MEGA,
+    SPECIES_LATIOS_MEGA,
+    SPECIES_LOPUNNY_MEGA,
+    SPECIES_GARCHOMP_MEGA,
+    SPECIES_LUCARIO_MEGA,
+    SPECIES_ABOMASNOW_MEGA,
+    SPECIES_GALLADE_MEGA,
+    SPECIES_AUDINO_MEGA,
+    SPECIES_DIANCIE_MEGA,
+};
+
 u32 RogueGift_GetCustomMonIdBySpecies(u16 species, u32 otId)
 {
     u32 i;
@@ -397,6 +448,17 @@ u32 RogueGift_GetCustomMonIdBySpecies(u16 species, u32 otId)
     // The mega itself has it's own ability so don't redirect
     if(species == SPECIES_PIKIN_MEGA)
         return CUSTOM_MON_NONE;
+    
+    // Unfortunately I have yet to figure out how to let the id show up like usual. Eh, it's temporary anyway
+    // Plus, Pikin suffers from the same issue
+    if(FlagGet(FLAG_UNIQUE_DEFAULT_MEGA_ABILITY)) 
+    {
+        for(i = 0; i < ARRAY_COUNT(speciesMegaList); i++)
+        {
+            if(species == speciesMegaList[i])
+                return CUSTOM_MON_NONE;
+        }
+    }
 #endif
 
     species = TransformCheckSpecies(species);
