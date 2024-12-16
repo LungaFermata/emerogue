@@ -507,9 +507,9 @@ static const u16 sStackableCurseEffects[] = {
     EFFECT_SHED_SKIN_CHANCE,
 };
 
-float Rogue_CalculateRewardMultiplier()
+int Rogue_CalculateRewardMultiplier()
 {
-    float multiplier = 10; // Base multiplier
+    int multiplier = 10; // Base multiplier
 
     // Trainer multiplier
     u8 trainerDifficulty = Rogue_GetConfigRange(CONFIG_RANGE_TRAINER);
