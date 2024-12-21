@@ -1832,6 +1832,12 @@ void Rogue_SelectCatchingContestMode()
     u8 type = Random() % NUMBER_OF_MON_TYPES;
     u8 stat = Random() % NUM_STATS;
 
+    // If Kanto dex, force reroll
+    while (RoguePokedex_GetDexVariant() == POKEDEX_VARIANT_KANTO_RBY && type == TYPE_DARK)
+    {
+        type = Random() % NUMBER_OF_MON_TYPES;
+    }
+    
     while(!IS_STANDARD_TYPE(type))
     {
         type = Random() % NUMBER_OF_MON_TYPES;
