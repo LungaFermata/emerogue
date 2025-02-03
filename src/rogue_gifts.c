@@ -1096,15 +1096,15 @@ void RogueGift_EnsureDynamicCustomMonsAreValid()
                     if (Random() % 4 == 0) // 75% the time an exotic is supposed to appear, an epic will appear instead
                     {
                         u32 customMonId = SelectUnusedUnlockedExoticMon();
+                        if (customMonId != 0)
+                        {
+                            struct CustomMonData const* monData = &sCustomPokemon[customMonId];
+                            AGB_ASSERT(customMonId < CUSTOM_MON_COUNT);
 
-                    if (customMonId != 0)
-                    {
-                        struct CustomMonData const* monData = &sCustomPokemon[customMonId];
-                        AGB_ASSERT(customMonId < CUSTOM_MON_COUNT);
-
-                        gRogueSaveBlock->dynamicUniquePokemon[i].species = Rogue_GetEggSpecies(monData->species);
-                        gRogueSaveBlock->dynamicUniquePokemon[i].customMonId = customMonId;
-                        continue;
+                            gRogueSaveBlock->dynamicUniquePokemon[i].species = Rogue_GetEggSpecies(monData->species);
+                            gRogueSaveBlock->dynamicUniquePokemon[i].customMonId = customMonId;
+                            continue;
+                        }
                     }
                 }
 
