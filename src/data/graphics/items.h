@@ -685,6 +685,9 @@ const u32 gItemIconPalette_PurpleNectar[] = INCBIN_U32("graphics/items/icon_pale
 
 // Plates
 
+const u32 gItemIcon_LegendPlate[] = INCBIN_U32("graphics/items/icons/legend_plate.4bpp.lz");
+const u32 gItemIconPalette_LegendPlate[] = INCBIN_U32("graphics/items/icon_palettes/legend_plate.gbapal.lz");
+
 const u32 gItemIcon_FlamePlate[] = INCBIN_U32("graphics/items/icons/flame_plate.4bpp.lz");
 const u32 gItemIconPalette_FlamePlate[] = INCBIN_U32("graphics/items/icon_palettes/flame_plate.gbapal.lz");
 
