@@ -82,12 +82,12 @@ static u16 const sDynamicCustomMonAbilities[] =
     ABILITY_DAUNTLESS_SHIELD,
     ABILITY_WEAK_ARMOR,
     ABILITY_TOXIC_DEBRIS,
-    ABILITY_LONG_REACH,
+    ABILITY_QUICK_DRAW,
     ABILITY_GORILLA_TACTICS,
     ABILITY_TOUGH_CLAWS,
     ABILITY_CLEAR_BODY,
     ABILITY_TECHNICIAN,
-    ABILITY_EMERGENCY_EXIT,
+    ABILITY_GUARD_DOG,
     ABILITY_PRANKSTER,
     ABILITY_BEADS_OF_RUIN,
     ABILITY_SWORD_OF_RUIN,
@@ -105,7 +105,7 @@ static u16 const sDynamicCustomMonAbilities[] =
     ABILITY_HARVEST,
     ABILITY_MOLD_BREAKER,
     ABILITY_SHEER_FORCE,
-    ABILITY_OVERCOAT,
+    ABILITY_NATURAL_CURE,
     ABILITY_ROUGH_SKIN,
     ABILITY_DEFIANT,
     ABILITY_PERISH_BODY,
@@ -114,12 +114,12 @@ static u16 const sDynamicCustomMonAbilities[] =
     ABILITY_AERILATE,
     ABILITY_BAD_DREAMS,
     ABILITY_BEAST_BOOST,
-    ABILITY_CLOUD_NINE,
+    ABILITY_QUICK_FEET,
     ABILITY_COMPETITIVE,
     ABILITY_COMPOUND_EYES,
     ABILITY_CORROSION,
     ABILITY_COTTON_DOWN,
-    ABILITY_CUD_CHEW,
+    ABILITY_RIPEN,
     ABILITY_DELTA_STREAM,
     ABILITY_DESOLATE_LAND,
     ABILITY_DOWNLOAD,
@@ -141,7 +141,7 @@ static u16 const sDynamicCustomMonAbilities[] =
     ABILITY_MINDS_EYE,
     ABILITY_MOTOR_DRIVE,
     ABILITY_NORMALIZE,
-    ABILITY_OBLIVIOUS,
+    ABILITY_OPPORTUNIST,
     ABILITY_OWN_TEMPO,
     ABILITY_PIXILATE,
     ABILITY_POISON_PUPPETEER,
@@ -153,7 +153,7 @@ static u16 const sDynamicCustomMonAbilities[] =
     ABILITY_QUEENLY_MAJESTY,
     ABILITY_RECKLESS,
     ABILITY_REFRIGERATE,
-    ABILITY_RIVALRY,
+    ABILITY_ANGER_POINT,
     ABILITY_ROCKY_PAYLOAD,
     ABILITY_SAP_SIPPER,
     ABILITY_SHADOW_TAG,
@@ -170,7 +170,7 @@ static u16 const sDynamicCustomMonAbilities[] =
     ABILITY_TINTED_LENS,
     ABILITY_TOXIC_CHAIN,
     ABILITY_TRACE,
-    ABILITY_TRANSISTOR,
+    ABILITY_ELECTROMORPHOSIS,
     ABILITY_TRIAGE,
     ABILITY_WATER_BUBBLE,
     ABILITY_WELL_BAKED_BODY,
@@ -204,12 +204,12 @@ static u16 const sDynamicCustomMonMoves[] =
     MOVE_SPORE,
     MOVE_NOXIOUS_TORQUE,
     MOVE_TAIL_GLOW,
-    MOVE_CLOSE_COMBAT,
+    MOVE_SUPERPOWER,
     MOVE_U_TURN,
     MOVE_SHIFT_GEAR,
     MOVE_TAKE_HEART,
     MOVE_FLOWER_TRICK,
-    MOVE_SUNSTEEL_STRIKE,
+    MOVE_DOUBLE_IRON_BASH,
     MOVE_CEASELESS_EDGE,
     MOVE_COSMIC_POWER,
     MOVE_FAKE_OUT,
@@ -248,7 +248,7 @@ static u16 const sDynamicCustomMonMoves[] =
     MOVE_APPLE_ACID,
     MOVE_AURORA_VEIL,
     MOVE_BADDY_BAD,
-    MOVE_BEAK_BLAST,
+    MOVE_INGRAIN,
     MOVE_BITTER_BLADE,
     MOVE_BODY_PRESS,
     MOVE_BOLT_BEAK,
@@ -256,7 +256,7 @@ static u16 const sDynamicCustomMonMoves[] =
     MOVE_CLANGOROUS_SOUL,
     MOVE_COIL,
     MOVE_COTTON_GUARD,
-    MOVE_COURT_CHANGE,
+    MOVE_ACUPRESSURE,
     MOVE_DIRE_CLAW,
     MOVE_DRACO_METEOR,
     MOVE_DRAGON_ASCENT,
@@ -284,7 +284,7 @@ static u16 const sDynamicCustomMonMoves[] =
     MOVE_MATCHA_GOTCHA,
     MOVE_MOONBLAST,
     MOVE_MORTAL_SPIN,
-    MOVE_MOUNTAIN_GALE,
+    MOVE_TRIPLE_AXEL,
     MOVE_OBLIVION_WING,
     MOVE_PHOTON_GEYSER,
     MOVE_POLLEN_PUFF,
@@ -389,6 +389,57 @@ static u16 TransformCheckSpecies(u16 species)
     return species;
 }
 
+// There is probably a better way to check for this but idk lmao
+static const u16 speciesMegaList[] = {
+    SPECIES_VENUSAUR_MEGA,
+    SPECIES_CHARIZARD_MEGA_X,
+    SPECIES_CHARIZARD_MEGA_Y,
+    SPECIES_BLASTOISE_MEGA,
+    SPECIES_BEEDRILL_MEGA,
+    SPECIES_PIDGEOT_MEGA,
+    SPECIES_ALAKAZAM_MEGA,
+    SPECIES_SLOWBRO_MEGA,
+    SPECIES_GENGAR_MEGA,
+    SPECIES_KANGASKHAN_MEGA,
+    SPECIES_PINSIR_MEGA,
+    SPECIES_GYARADOS_MEGA,
+    SPECIES_AERODACTYL_MEGA,
+    SPECIES_MEWTWO_MEGA_X,
+    SPECIES_MEWTWO_MEGA_Y,
+    SPECIES_AMPHAROS_MEGA,
+    SPECIES_STEELIX_MEGA,
+    SPECIES_SCIZOR_MEGA,
+    SPECIES_HERACROSS_MEGA,
+    SPECIES_HOUNDOOM_MEGA,
+    SPECIES_TYRANITAR_MEGA,
+    SPECIES_SCEPTILE_MEGA,
+    SPECIES_BLAZIKEN_MEGA,
+    SPECIES_SWAMPERT_MEGA,
+    SPECIES_GARDEVOIR_MEGA,
+    SPECIES_SABLEYE_MEGA,
+    SPECIES_MAWILE_MEGA,
+    SPECIES_AGGRON_MEGA,
+    SPECIES_MEDICHAM_MEGA,
+    SPECIES_MANECTRIC_MEGA,
+    SPECIES_SHARPEDO_MEGA,
+    SPECIES_CAMERUPT_MEGA,
+    SPECIES_ALTARIA_MEGA,
+    SPECIES_BANETTE_MEGA,
+    SPECIES_ABSOL_MEGA,
+    SPECIES_GLALIE_MEGA,
+    SPECIES_SALAMENCE_MEGA,
+    SPECIES_METAGROSS_MEGA,
+    SPECIES_LATIAS_MEGA,
+    SPECIES_LATIOS_MEGA,
+    SPECIES_LOPUNNY_MEGA,
+    SPECIES_GARCHOMP_MEGA,
+    SPECIES_LUCARIO_MEGA,
+    SPECIES_ABOMASNOW_MEGA,
+    SPECIES_GALLADE_MEGA,
+    SPECIES_AUDINO_MEGA,
+    SPECIES_DIANCIE_MEGA,
+};
+
 u32 RogueGift_GetCustomMonIdBySpecies(u16 species, u32 otId)
 {
     u32 i;
@@ -397,6 +448,17 @@ u32 RogueGift_GetCustomMonIdBySpecies(u16 species, u32 otId)
     // The mega itself has it's own ability so don't redirect
     if(species == SPECIES_PIKIN_MEGA)
         return CUSTOM_MON_NONE;
+    
+    // Unfortunately I have yet to figure out how to let the id show up like usual. Eh, it's temporary anyway
+    // Plus, Pikin suffers from the same issue
+    if(FlagGet(FLAG_UNIQUE_DEFAULT_MEGA_ABILITY)) 
+    {
+        for(i = 0; i < ARRAY_COUNT(speciesMegaList); i++)
+        {
+            if(species == speciesMegaList[i])
+                return CUSTOM_MON_NONE;
+        }
+    }
 #endif
 
     species = TransformCheckSpecies(species);
@@ -1027,18 +1089,23 @@ void RogueGift_EnsureDynamicCustomMonsAreValid()
 
             gRogueSaveBlock->dynamicUniquePokemon[i].countDown = 60 + 30 * i; // Time remaining is based on the slot
 
-            if(rarity == UNIQUE_RARITY_EXOTIC)
+            if (Random() % 2 == 0) // Half the time an exotic is supposed to appear, an epic will appear instead
             {
-                u32 customMonId = SelectUnusedUnlockedExoticMon();
-
-                if(customMonId != 0)
+                if (rarity == UNIQUE_RARITY_EXOTIC)
                 {
-                    struct CustomMonData const* monData = &sCustomPokemon[customMonId];
-                    AGB_ASSERT(customMonId < CUSTOM_MON_COUNT);
+                    if (Random() % 4 == 0) // 75% the time an exotic is supposed to appear, an epic will appear instead
+                    {
+                        u32 customMonId = SelectUnusedUnlockedExoticMon();
+                        if (customMonId != 0)
+                        {
+                            struct CustomMonData const* monData = &sCustomPokemon[customMonId];
+                            AGB_ASSERT(customMonId < CUSTOM_MON_COUNT);
 
-                    gRogueSaveBlock->dynamicUniquePokemon[i].species = Rogue_GetEggSpecies(monData->species);
-                    gRogueSaveBlock->dynamicUniquePokemon[i].customMonId = customMonId;
-                    continue;
+                            gRogueSaveBlock->dynamicUniquePokemon[i].species = Rogue_GetEggSpecies(monData->species);
+                            gRogueSaveBlock->dynamicUniquePokemon[i].customMonId = customMonId;
+                            continue;
+                        }
+                    }
                 }
 
                 // Fallback to just have an epic mon in this slot

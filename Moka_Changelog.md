@@ -1,5 +1,18 @@
 # CHANGELOG
 
+VER 2.0.3
+- Manually added some egg moves for some pokemon
+- Added the ability to switch whether you want the mega unique to use their unique ability, or their original mega ability. Can be toggled via mega ring
+- Minor grammar fixes
+- Merged eevee's rarer exotics
+- Merged kleen's various fixes, which includes quick claw fix and spectral thief
+- Merged kleen's safari qol, you can now just pick the pokemon you want to get from the sign (!!!)
+- Merged kleen's legend plate
+- Added a custom icon for legend plate
+- Fixed dark type being available in RBY dex catching contest
+- Fixed appletun's ow sprite
+
+VER 2.0.2
 9/12/2024
 - Adjusted the potion brewing text position to fit 3 digits
 - Fixed potion cauldron not correctly reducing the berry amount during large batches of brewing

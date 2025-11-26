@@ -855,9 +855,22 @@ BattleScript_EffectSpinOut::
 	goto BattleScript_EffectHit
 
 BattleScript_EffectMakeItRain::
-	setmoveeffect MOVE_EFFECT_PAYDAY
-	seteffectprimary
 	setmoveeffect MOVE_EFFECT_SP_ATK_MINUS_1 | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
+	goto BattleScript_SetEffectPrimaryReturn
+
+BattleScript_EffectClangingScales::
+	setmoveeffect MOVE_EFFECT_DEF_MINUS_1 | MOVE_EFFECT_AFFECTS_USER | MOVE_EFFECT_CERTAIN
+	goto BattleScript_SetEffectPrimaryReturn
+
+BattleScript_EffectDiamondStorm::
+	setmoveeffect MOVE_EFFECT_DEF_PLUS_2 | MOVE_EFFECT_AFFECTS_USER
+	goto BattleScript_SetEffectPrimaryReturn
+
+BattleScript_EffectClangorousSoulblaze::
+	setmoveeffect MOVE_EFFECT_ALL_STATS_UP | MOVE_EFFECT_AFFECTS_USER
+	goto BattleScript_SetEffectPrimaryReturn
+
+BattleScript_SetEffectPrimaryReturn:
 	seteffectprimary
 	return
 
@@ -3777,6 +3790,8 @@ BattleScript_EffectMindBlown::
 	jumpifbyte CMP_GREATER_THAN, sB_ANIM_TARGETS_HIT, 0, BattleScript_EffectMindBlown_NoHpLoss
 	jumpifabilitypresent ABILITY_DAMP, BattleScript_MindBlownDamp
 	jumpifmorethanhalfHP BS_ATTACKER, BattleScript_EffectMindBlown_HpDown
+	setbyte sMULTIHIT_EFFECT, 1 @ Note to not faint the attacker
+	jumpifability BS_ATTACKER, ABILITY_MAGIC_GUARD, BattleScript_EffectMindBlown_AnimDmgNoFaint
 	setbyte sMULTIHIT_EFFECT, 0 @ Note to faint the attacker
 	instanthpdrop BS_ATTACKER
 	waitstate
@@ -5540,8 +5555,6 @@ BattleScript_EffectSpecialAttackUpHit::
 	goto BattleScript_EffectHit
 
 BattleScript_EffectAllStatsUpHit::
-	@ Handle clangorous soulblaze boosting itself twice in doubles
-	jumpifword CMP_NO_COMMON_BITS, gHitMarker, HITMARKER_NO_ATTACKSTRING | HITMARKER_NO_PPDEDUCT, BattleScript_NoMoveEffect
 	setmoveeffect MOVE_EFFECT_ALL_STATS_UP | MOVE_EFFECT_AFFECTS_USER
 	goto BattleScript_EffectHit
 
@@ -8721,6 +8734,7 @@ BattleScript_MoveEffectRecoil::
 	jumpifmove MOVE_STRUGGLE, BattleScript_DoRecoil
 	jumpifability BS_ATTACKER, ABILITY_ROCK_HEAD, BattleScript_RecoilEnd
 BattleScript_DoRecoil::
+	jumpifability BS_ATTACKER, ABILITY_MAGIC_GUARD, BattleScript_RecoilEnd
 	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE | HITMARKER_IGNORE_DISGUISE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
@@ -9767,6 +9781,7 @@ BattleScript_GooeyActivates::
 	call BattleScript_AbilityPopUp
 	swapattackerwithtarget  @ for defiant, mirror armor
 	seteffectsecondary
+	swapattackerwithtarget @ kleen: restore the target/attacker, for knock off and I imagine others 
 	return
 
 BattleScript_AbilityStatusEffect::

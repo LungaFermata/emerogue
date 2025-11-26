@@ -59,6 +59,7 @@
 #include "rogue_player_customisation.h"
 #include "rogue_quest.h"
 #include "rogue_safari.h"
+#include "rogue_hub.h"
 
 #define TAG_POCKET_SCROLL_ARROW 110
 #define TAG_BAG_SCROLL_ARROW    111
@@ -98,6 +99,7 @@ enum {
     ACTION_SORT_VALUE,
     ACTION_SORT_AMOUNT,
     ACTION_DUMMY,
+    ACTION_TOGGLE_UNIQUE_MEGA,
 };
 
 enum {
@@ -202,6 +204,7 @@ static void BagMenu_ItemPrintCallback(u8, u32, u8);
 static void ItemMenu_UseOutOfBattle(u8);
 static void ItemMenu_Toss(u8);
 static void ItemMenu_Register(u8);
+static void ItemMenu_ToggleUniqueMega(u8);
 static void ItemMenu_Give(u8);
 static void ItemMenu_Cancel(u8);
 static void ItemMenu_UseInBattle(u8);
@@ -223,6 +226,10 @@ static void ConfirmToss(u8);
 static void CancelToss(u8);
 static void ConfirmSell(u8);
 static void CancelSell(u8);
+static void ConfirmToggle(u8);
+static void CancelToggle(u8);
+static void AskToggleUniqueMega(u8);
+static void ExitToggleUniqueMega(u8);
 static bool8 isQuickMode = FALSE;
 
 // Key item wheel
@@ -300,6 +307,7 @@ static const struct MenuAction sItemMenuActions[] = {
     [ACTION_SORT_NAME]         = {gMenuText_SortName,   {ItemMenu_SortByName}},
     [ACTION_SORT_VALUE]        = {gMenuText_SortValue,  {ItemMenu_SortByValue}},
     [ACTION_SORT_AMOUNT]       = {gMenuText_SortAmount, {ItemMenu_SortByAmount}},
+    [ACTION_TOGGLE_UNIQUE_MEGA]= {gMenuText_ToggleUniqueMega, {ItemMenu_ToggleUniqueMega}},
     [ACTION_DUMMY]             = {gText_EmptyString2, {NULL}}
 };
 
@@ -384,6 +392,8 @@ static const TaskFunc sContextMenuFuncs[] = {
 static const struct YesNoFuncTable sYesNoTossFunctions = {ConfirmToss, CancelToss};
 
 static const struct YesNoFuncTable sYesNoSellItemFunctions = {ConfirmSell, CancelSell};
+
+static const struct YesNoFuncTable sYesNoToggleUniqueMega = {ConfirmToggle, CancelToggle};
 
 static const struct ScrollArrowsTemplate sBagScrollArrowsTemplate = {
     .firstArrowType = SCROLL_ARROW_LEFT,
@@ -2171,6 +2181,10 @@ static void OpenContextMenu(u8 taskId, bool8 forSorting)
                     if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
                         gBagMenu->contextMenuItemsBuffer[0] = ACTION_WALK;
                 }
+                if(RogueHub_HasUpgrade(HUB_UPGRADE_LAB_UNIQUE_MON_LAB) && gSpecialVar_ItemId == ITEM_MEGA_RING)
+                {
+                    gBagMenu->contextMenuItemsBuffer[2] = ACTION_TOGGLE_UNIQUE_MEGA;
+                }
                 break;
             case BALLS_POCKET:
                 gBagMenu->contextMenuItemsPtr = sContextMenuItems_BallsPocket;
@@ -2598,6 +2612,39 @@ static void ItemMenu_Register(u8 taskId)
     FillWindowPixelBuffer(WIN_DESCRIPTION, PIXEL_FILL(0));
     BagMenu_Print(WIN_DESCRIPTION, FONT_NORMAL, gText_PressAnyDpadKey, 3, 1, 0, 0, 0, COLORID_NORMAL);
     gTasks[taskId].func = Task_RegisterUsingDpad;
+}
+
+static void ItemMenu_ToggleUniqueMega(u8 taskId)
+{
+    DisplayItemMessage(taskId, FONT_NORMAL, gText_ToggleUniqueMega, AskToggleUniqueMega);
+}
+
+static void AskToggleUniqueMega(u8 taskId)
+{
+    BagMenu_YesNo(taskId, ITEMWIN_YESNO_HIGH, &sYesNoToggleUniqueMega);
+}
+
+static void ConfirmToggle(u8 taskId)
+{
+    FlagSet(FLAG_UNIQUE_DEFAULT_MEGA_ABILITY);
+    DisplayItemMessage(taskId, FONT_NORMAL, gText_ToggleUniqueMega_Yes, ExitToggleUniqueMega);
+}
+
+static void CancelToggle(u8 taskId)
+{
+    FlagClear(FLAG_UNIQUE_DEFAULT_MEGA_ABILITY);
+    DisplayItemMessage(taskId, FONT_NORMAL, gText_ToggleUniqueMega_No, ExitToggleUniqueMega);
+}
+
+static void ExitToggleUniqueMega(u8 taskId)
+{
+    if (JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        RemoveContextWindow();
+        RemoveItemMessageWindow(ITEMWIN_MESSAGE);
+        ReturnToItemList(taskId);
+    }
 }
 
 static void ItemMenu_Give(u8 taskId)
