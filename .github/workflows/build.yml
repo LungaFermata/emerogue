@@ -9,7 +9,7 @@ on:
       perform_tests:
         required: true
         type: boolean
-      upload_artifact:
+      upload_artifacts:
         required: true
         type: boolean
 
@@ -75,21 +75,21 @@ jobs:
           make -j${nproc} check
 
       - uses: actions/upload-artifact@v4
-        if: ${{ inputs.upload_artifact }}
+        if: ${{ inputs.upload_artifacts }}
         with:
             name: emerogue
             path: emerogue.gba
             retention-days: 1
   
       - uses: actions/upload-artifact@v4
-        if: ${{ inputs.upload_artifact }}
+        if: ${{ inputs.upload_artifacts }}
         with:
             name: emerogue_elf
             path: emerogue.elf
             retention-days: 1
             
       - uses: actions/upload-artifact@v4
-        if: ${{ inputs.upload_artifact }}
+        if: ${{ inputs.upload_artifacts }}
         with:
             name: emerogue_map
             path: emerogue.map
