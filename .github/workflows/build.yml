@@ -1,6 +1,17 @@
 name: Compile
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      debug_version:
+        required: true
+        type: boolean
+      perform_tests:
+        required: true
+        type: boolean
+      upload_artifact:
+        required: true
+        type: boolean
 
 jobs:
   build:
@@ -38,37 +49,48 @@ jobs:
           ./install.sh ../
         working-directory: agbcc
 
-      - name: Modern
+      - name: Modern Release
         env:
           MODERN: 1
           COMPARE: 0
           RELEASE: 1
+        if: ${{ !inputs.debug_version }}
         run: make -j${nproc} -O all
-        # change RELEASE to 0 to compile debug
 
-      #- name: Test
-      #  env:
-      #    MODERN: 1
-      #    TEST: 1
-      #  run: |
-      #    make -j${nproc} -O pokeemerald-test.elf
-      #    make -j${nproc} check
+      - name: Modern Debug
+        env:
+          MODERN: 1
+          COMPARE: 0
+          RELEASE: 0
+        if: ${{ inputs.debug_version }}
+        run: make -j${nproc} -O all
+
+      - name: Test
+        env:
+          MODERN: 1
+          TEST: 1
+        if: ${{ inputs.perform_tests }}
+        run: |
+          make -j${nproc} -O pokeemerald-test.elf
+          make -j${nproc} check
           # Test step, commented out by default to minimise the time to compile 
 
-        # delete or comment out code below this point to prevent uploading to github if using workflow purely for testing.
       - uses: actions/upload-artifact@v4
+        if: ${{ inputs.upload_artifact }}
         with:
             name: emerogue
             path: emerogue.gba
             retention-days: 1
   
       - uses: actions/upload-artifact@v4
+        if: ${{ inputs.upload_artifact }}
         with:
             name: emerogue_elf
             path: emerogue.elf
             retention-days: 1
             
       - uses: actions/upload-artifact@v4
+        if: ${{ inputs.upload_artifact }}
         with:
             name: emerogue_map
             path: emerogue.map
