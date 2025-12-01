@@ -71,9 +71,8 @@ jobs:
           TEST: 1
         if: ${{ inputs.perform_tests }}
         run: |
-          make -j${nproc} -O pokeemerald-test.elf
+          make -j${nproc} -O emerogue-test.elf
           make -j${nproc} check
-          # Test step, commented out by default to minimise the time to compile 
 
       - uses: actions/upload-artifact@v4
         if: ${{ inputs.upload_artifact }}
