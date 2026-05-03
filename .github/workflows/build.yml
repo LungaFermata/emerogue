@@ -74,21 +74,21 @@ jobs:
           make -j${nproc} -O emerogue-test.elf
           make -j${nproc} check
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ inputs.upload_artifacts }}
         with:
             name: emerogue
             path: emerogue.gba
             retention-days: 1
   
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ inputs.upload_artifacts }}
         with:
             name: emerogue_elf
             path: emerogue.elf
             retention-days: 1
             
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ inputs.upload_artifacts }}
         with:
             name: emerogue_map
